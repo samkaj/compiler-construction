@@ -1,0 +1,168 @@
+-- programs ------------------------------------------------
+
+entrypoints Prog ;
+
+Program.   Prog ::= [TopDef] ;
+
+FnDef.	   TopDef ::= Type Ident "(" [Arg] ")" Blk ;
+
+separator nonempty TopDef "" ;
+
+Argument.  Arg ::= Type Ident;
+
+separator  Arg "," ;
+
+-- statements ----------------------------------------------
+
+Block.     Blk ::= "{" [Stmt] "}" ;
+
+separator  Stmt "" ;
+
+Empty.     Stmt ::= ";" ;
+
+BStmt.     Stmt ::= Blk ;
+
+Decl.      Stmt ::= Type [Item] ";" ;
+
+NoInit.    Item ::= Ident ;
+
+Init.      Item ::= Ident "=" Expr ;
+
+separator nonempty Item "," ;
+
+Ass.       Stmt ::= Ident "=" Expr  ";" ;
+
+Incr.      Stmt ::= Ident "++"  ";" ;
+
+Decr.      Stmt ::= Ident "--"  ";" ;
+
+Ret.       Stmt ::= "return" Expr ";" ;
+
+VRet.      Stmt ::= "return" ";" ;
+
+Cond.      Stmt ::= "if" "(" Expr ")" Stmt  ;
+
+CondElse.  Stmt ::= "if" "(" Expr ")" Stmt "else" Stmt  ;
+
+While.     Stmt ::= "while" "(" Expr ")" Stmt ;
+
+SExp.      Stmt ::= Expr  ";" ;
+
+-- Types ---------------------------------------------------
+
+Int.       Type ::= "int" ;
+
+Doub.      Type ::= "double" ;
+
+Bool.      Type ::= "boolean" ;
+
+Void.      Type ::= "void" ;
+
+internal   Fun. Type ::= Type "(" [Type] ")" ;
+
+separator  Type "," ;
+
+-- Arrays -------------------------------------------------
+
+Arr.       Type  ::= Type "[]" ;
+
+EArrGet.   Expr7 ::= Expr7 "[" Expr "]" ;
+
+EArr.      Expr7 ::= "new" Type Size  ;
+
+EArrDot.   Expr6 ::= Expr7 "." Ident ; -- FIXME?
+
+NArr.      Size  ::= "[" Expr "]" ;
+
+separator  Size "" ;
+
+InitArr.   Stmt ::= Expr7 "[" Expr "]" "=" Expr ";" ;
+
+ForEach.   Stmt  ::= "for" "(" Type Ident ":" Expr ")" Stmt ;
+
+-- Pointers ------------------------------------------------
+
+StructDef. TopDef ::= "struct" Ident "{" [ Field ] "}" ";" ;
+
+Typedef.   TopDef ::= "typedef" "struct" Ident "*" Ident ";" ;
+
+Member.    Field ::= Type Ident ";" ;
+
+separator  Field "" ;
+
+NewPtr.    Expr6 ::= "new" Ident ;
+
+Deref.     Expr6 ::= Expr6 "->" Expr7 ;
+
+Null.      Expr6 ::= "(" Ident ")" "null" ;
+
+FieldAss.  Stmt ::= Expr "=" Expr ";" ;
+
+Struct.    Type ::= Ident ;
+
+-- Expressions ---------------------------------------------
+
+EVar.      Expr7 ::= Ident ;
+
+ELitInt.   Expr7 ::= Integer ;
+
+ELitDoub.  Expr7 ::= Double;
+
+ELitTrue.  Expr7 ::= "true" ;
+
+ELitFalse. Expr7 ::= "false" ;
+
+EApp.      Expr7 ::= Ident "(" [Expr] ")" ;
+
+EString.   Expr7 ::= String ;
+
+Neg.       Expr5 ::= "-" Expr6 ;
+
+Not.       Expr5 ::= "!" Expr6 ;
+
+EMul.      Expr4 ::= Expr4 MulOp Expr5 ;
+
+EAdd.      Expr3 ::= Expr3 AddOp Expr4 ;
+
+ERel.      Expr2 ::= Expr2 RelOp Expr3 ;
+
+EAnd.      Expr1 ::= Expr2 "&&" Expr1 ;
+
+EOr.       Expr ::= Expr1 "||" Expr ;
+
+coercions  Expr 7 ;
+
+separator  Expr "," ;
+
+-- operators -----------------------------------------------
+
+Plus.      AddOp ::= "+" ;
+
+Minus.     AddOp ::= "-" ;
+
+Times.     MulOp ::= "*" ;
+
+Div.       MulOp ::= "/" ;
+
+Mod.       MulOp ::= "%" ;
+
+LTH.       RelOp ::= "<" ;
+
+LE.        RelOp ::= "<=" ;
+
+GTH.       RelOp ::= ">" ;
+
+GE.        RelOp ::= ">=" ;
+
+EQU.       RelOp ::= "==" ;
+
+NE.        RelOp ::= "!=" ;
+
+-- comments ------------------------------------------------
+
+comment    "#" ;
+
+comment    "//" ;
+
+comment    "/*" "*/" ;
+

@@ -1,0 +1,27 @@
+Docs for JLC, by Samuel Kajava (group 20)
+================================================================================
+
+Assignment A
+--------------------------------------------------------------------------------
+I have not yet changed the grammar, so we only have one shift/reduce conflict:
+the dangling-else conflict. Bison sees that this can reduce into ambiguous
+parse trees and therefore complains. However, as Javalette is inspired by C and
+Java, the dangling-else ambiguity is solved by associating the else with the 
+inermost if possible [1, 2]. Since disambiguity is assured in this way, we can
+safely say that it is harmless.
+
+[1]: 
+  https://docs.oracle.com/javase/specs/jls/se8/html/jls-14.html#jls-14.5
+[2]:
+  https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdangling-else
+
+**Another note**: I forgot to set my local git config, so there will be some 
+contributions from samkaj, which is my GitHub credentials, in case there is
+any confusion regarding the contributors.
+
+Assignment B
+--------------------------------------------------------------------------------
+I want to give some credits to the resources used for the implementation.
+- LLVM docs. Very useful for learning the API: https://llvm.org/doxygen/
+- LLVM Kaleidoscope (esp. chap. 3): 
+    https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/LangImpl03.html
