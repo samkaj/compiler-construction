@@ -1,4 +1,4 @@
-# `Copied from private git server at Chalmers; I'm still the authour :)`
+# `Copied from private git server at Chalmers; I'm still the author :)`
 
 # Javalette Compiler
 
